@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/PhilipJovanovic/phi"
+	"go.philip.id/phi"
 )
 
 // StripSlashes is a middleware that will match request paths with a trailing
@@ -36,7 +36,7 @@ func StripSlashes(next http.Handler) http.Handler {
 // slash and redirect to the same path, less the trailing slash.
 //
 // NOTE: RedirectSlashes middleware is *incompatible* with http.FileServer,
-// see github.com/PhilipJovanovic/phi/phi/issues/343
+// see go.philip.id/phi/phi/issues/343
 func RedirectSlashes(next http.Handler) http.Handler {
 	fn := func(w http.ResponseWriter, r *http.Request) {
 		var path string

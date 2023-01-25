@@ -98,7 +98,7 @@ func NewCompressor(level int, types ...string) *Compressor {
 	// TODO:
 	// lzma: Opera.
 	// sdch: Chrome, Android. Gzip output + dictionary header.
-	// br:   Brotli, see github.com/PhilipJovanovic/phi/phi/pull/326
+	// br:   Brotli, see go.philip.id/phi/phi/pull/326
 
 	// HTTP 1.1 "deflate" (RFC 2616) stands for DEFLATE data (RFC 1951)
 	// wrapped with zlib (RFC 1950). The zlib wrapper uses Adler-32
@@ -137,14 +137,14 @@ func NewCompressor(level int, types ...string) *Compressor {
 //
 // For example, add the Brotli algortithm:
 //
-//  import brotli_enc "gopkg.in/kothar/brotli-go.v0/enc"
+//	import brotli_enc "gopkg.in/kothar/brotli-go.v0/enc"
 //
-//  compressor := middleware.NewCompressor(5, "text/html")
-//  compressor.SetEncoder("br", func(w http.ResponseWriter, level int) io.Writer {
-//    params := brotli_enc.NewBrotliParams()
-//    params.SetQuality(level)
-//    return brotli_enc.NewBrotliWriter(params, w)
-//  })
+//	compressor := middleware.NewCompressor(5, "text/html")
+//	compressor.SetEncoder("br", func(w http.ResponseWriter, level int) io.Writer {
+//	  params := brotli_enc.NewBrotliParams()
+//	  params.SetQuality(level)
+//	  return brotli_enc.NewBrotliWriter(params, w)
+//	})
 func (c *Compressor) SetEncoder(encoding string, fn EncoderFunc) {
 	encoding = strings.ToLower(encoding)
 	if encoding == "" {

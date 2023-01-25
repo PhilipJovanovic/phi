@@ -7,7 +7,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/PhilipJovanovic/phi"
+	"go.philip.id/phi"
 )
 
 func TestStripSlashes(t *testing.T) {

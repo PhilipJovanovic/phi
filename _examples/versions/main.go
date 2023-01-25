@@ -1,9 +1,7 @@
-//
 // Versions
 // ========
 // This example demonstrates the use of the render subpackage, with
 // a quick concept for how to support multiple api versions.
-//
 package main
 
 import (
@@ -14,13 +12,13 @@ import (
 	"net/http"
 	"time"
 
-	phi "github.com/PhilipJovanovic/phi"
-	"github.com/PhilipJovanovic/phi/_examples/versions/data"
-	v1 "github.com/PhilipJovanovic/phi/_examples/versions/presenter/v1"
-	v2 "github.com/PhilipJovanovic/phi/_examples/versions/presenter/v2"
-	v3 "github.com/PhilipJovanovic/phi/_examples/versions/presenter/v3"
-	"github.com/PhilipJovanovic/phi/middleware"
 	"github.com/go-phi/render"
+	phi "go.philip.id/phi"
+	"go.philip.id/phi/_examples/versions/data"
+	v1 "go.philip.id/phi/_examples/versions/presenter/v1"
+	v2 "go.philip.id/phi/_examples/versions/presenter/v2"
+	v3 "go.philip.id/phi/_examples/versions/presenter/v3"
+	"go.philip.id/phi/middleware"
 )
 
 func main() {

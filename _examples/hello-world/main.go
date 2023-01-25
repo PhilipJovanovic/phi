@@ -3,8 +3,8 @@ package main
 import (
 	"net/http"
 
-	phi "github.com/PhilipJovanovic/phi"
-	"github.com/PhilipJovanovic/phi/middleware"
+	phi "go.philip.id/phi"
+	"go.philip.id/phi/middleware"
 )
 
 func main() {

@@ -1,4 +1,3 @@
-//
 // REST
 // ====
 // This example demonstrates a HTTP REST web service with some fixture data.
@@ -36,7 +35,6 @@
 //
 // $ curl http://localhost:3333/articles
 // [{"id":"2","title":"sup"},{"id":"97","title":"awesomeness"}]
-//
 package main
 
 import (
@@ -48,10 +46,10 @@ import (
 	"net/http"
 	"strings"
 
-	phi "github.com/PhilipJovanovic/phi"
-	"github.com/PhilipJovanovic/phi/middleware"
 	"github.com/go-phi/docgen"
 	"github.com/go-phi/render"
+	phi "go.philip.id/phi"
+	"go.philip.id/phi/middleware"
 )
 
 var routes = flag.Bool("routes", false, "Generate router documentation")
@@ -106,7 +104,7 @@ func main() {
 	if *routes {
 		// fmt.Println(docgen.JSONRoutesDoc(r))
 		fmt.Println(docgen.MarkdownRoutesDoc(r, docgen.MarkdownOpts{
-			ProjectPath: "github.com/PhilipJovanovic/phi",
+			ProjectPath: "go.philip.id/phi",
 			Intro:       "Welcome to the phi/_examples/rest generated docs.",
 		}))
 		return

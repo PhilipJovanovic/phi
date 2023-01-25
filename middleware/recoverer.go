@@ -18,7 +18,7 @@ import (
 // backtrace), and returns a HTTP 500 (Internal Server Error) status if
 // possible. Recoverer prints a request ID if one is provided.
 //
-// Alternatively, look at github.com/PhilipJovanovic/phi/httplog middleware pkgs.
+// Alternatively, look at go.philip.id/phi/httplog middleware pkgs.
 func Recoverer(next http.Handler) http.Handler {
 	fn := func(w http.ResponseWriter, r *http.Request) {
 		defer func() {

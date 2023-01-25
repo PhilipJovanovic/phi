@@ -2,77 +2,77 @@
 
 ## v5.0.7 (2021-11-18)
 
-- History of changes: see github.com/PhilipJovanovic/phi/phi/compare/v5.0.6...v5.0.7
+- History of changes: see go.philip.id/phi/phi/compare/v5.0.6...v5.0.7
 
 
 ## v5.0.6 (2021-11-15)
 
-- History of changes: see github.com/PhilipJovanovic/phi/phi/compare/v5.0.5...v5.0.6
+- History of changes: see go.philip.id/phi/phi/compare/v5.0.5...v5.0.6
 
 
 ## v5.0.5 (2021-10-27)
 
-- History of changes: see github.com/PhilipJovanovic/phi/phi/compare/v5.0.4...v5.0.5
+- History of changes: see go.philip.id/phi/phi/compare/v5.0.4...v5.0.5
 
 
 ## v5.0.4 (2021-08-29)
 
-- History of changes: see github.com/PhilipJovanovic/phi/phi/compare/v5.0.3...v5.0.4
+- History of changes: see go.philip.id/phi/phi/compare/v5.0.3...v5.0.4
 
 
 ## v5.0.3 (2021-04-29)
 
-- History of changes: see github.com/PhilipJovanovic/phi/phi/compare/v5.0.2...v5.0.3
+- History of changes: see go.philip.id/phi/phi/compare/v5.0.2...v5.0.3
 
 
 ## v5.0.2 (2021-03-25)
 
-- History of changes: see github.com/PhilipJovanovic/phi/phi/compare/v5.0.1...v5.0.2
+- History of changes: see go.philip.id/phi/phi/compare/v5.0.1...v5.0.2
 
 
 ## v5.0.1 (2021-03-10)
 
 - Small improvements
-- History of changes: see github.com/PhilipJovanovic/phi/phi/compare/v5.0.0...v5.0.1
+- History of changes: see go.philip.id/phi/phi/compare/v5.0.0...v5.0.1
 
 
 ## v5.0.0 (2021-02-27)
 
-- phi v5, `github.com/PhilipJovanovic/phi` introduces the adoption of Go's SIV to adhere to the current state-of-the-tools in Go.
+- phi v5, `go.philip.id/phi` introduces the adoption of Go's SIV to adhere to the current state-of-the-tools in Go.
 - phi v1.5.x did not work out as planned, as the Go tooling is too powerful and phi's adoption is too wide.
   The most responsible thing to do for everyone's benefit is to just release v5 with SIV, so I present to you all,
-  phi v5 at `github.com/PhilipJovanovic/phi`. I hope someday the developer experience and ergonomics I've been seeking
+  phi v5 at `go.philip.id/phi`. I hope someday the developer experience and ergonomics I've been seeking
   will still come to fruition in some form, see https://github.com/golang/go/issues/44550
-- History of changes: see github.com/PhilipJovanovic/phi/phi/compare/v1.5.4...v5.0.0
+- History of changes: see go.philip.id/phi/phi/compare/v1.5.4...v5.0.0
 
 
 ## v1.5.4 (2021-02-27)
 
 - Undo prior retraction in v1.5.3 as we prepare for v5.0.0 release
-- History of changes: see github.com/PhilipJovanovic/phi/phi/compare/v1.5.3...v1.5.4
+- History of changes: see go.philip.id/phi/phi/compare/v1.5.3...v1.5.4
 
 
 ## v1.5.3 (2021-02-21)
 
 - Update go.mod to go 1.16 with new retract directive marking all versions without prior go.mod support
-- History of changes: see github.com/PhilipJovanovic/phi/phi/compare/v1.5.2...v1.5.3
+- History of changes: see go.philip.id/phi/phi/compare/v1.5.2...v1.5.3
 
 
 ## v1.5.2 (2021-02-10)
 
 - Reverting allocation optimization as a precaution as go test -race fails.
 - Minor improvements, see history below
-- History of changes: see github.com/PhilipJovanovic/phi/phi/compare/v1.5.1...v1.5.2
+- History of changes: see go.philip.id/phi/phi/compare/v1.5.1...v1.5.2
 
 
 ## v1.5.1 (2020-12-06)
 
 - Performance improvement: removing 1 allocation by foregoing context.WithValue, thank you @bouk for
-  your contribution (github.com/PhilipJovanovic/phi/phi/pull/555). Note: new benchmarks posted in README.
+  your contribution (go.philip.id/phi/phi/pull/555). Note: new benchmarks posted in README.
 - `middleware.CleanPath`: new middleware that clean's request path of double slashes
 - deprecate & remove `phi.ServerBaseContext` in favour of stdlib `http.Server#BaseContext`
 - plus other tiny improvements, see full commit history below
-- History of changes: see github.com/PhilipJovanovic/phi/phi/compare/v4.1.2...v1.5.1
+- History of changes: see go.philip.id/phi/phi/compare/v4.1.2...v1.5.1
 
 
 ## v1.5.0 (2020-11-12) - now with go.mod support
@@ -94,7 +94,7 @@ joy for me than to have art I had started be helpful and enjoyed by others. And 
 
 For me, the asthetics of phi's code and usage are very important. With the introduction of Go's module support 
 (which I'm a big fan of), phi's past versioning scheme choice to v2, v3 and v4 would mean I'd require the import path
-of "github.com/go-phi/phi/v4", leading to the lengthy discussion at github.com/PhilipJovanovic/phi/phi/issues/462.
+of "github.com/go-phi/phi/v4", leading to the lengthy discussion at go.philip.id/phi/phi/issues/462.
 Haha, to some, you may be scratphing your head why I've spent > 1 year stalling to adopt "/vXX" convention in the import
 path -- which isn't horrible in general -- but for phi, I'm unable to accept it as I strive for perfection in it's API design,
 aesthetics and simplicity. It just doesn't feel good to me given phi's simple nature -- I do not foresee a "v5" or "v6",
@@ -130,15 +130,15 @@ Cheers all, happy coding!
 
 - fix that handles MethodNotAllowed with path variables, thank you @caseyhadden for your contribution
 - fix to replace nested wildcards correctly in RoutePattern, thank you @@unmultimedio for your contribution
-- History of changes: see github.com/PhilipJovanovic/phi/phi/compare/v4.1.1...v4.1.2
+- History of changes: see go.philip.id/phi/phi/compare/v4.1.1...v4.1.2
 
 
 ## v4.1.1 (2020-04-16)
 
-- fix for issue github.com/PhilipJovanovic/phi/phi/issues/411 which allows for overlapping regexp
+- fix for issue go.philip.id/phi/phi/issues/411 which allows for overlapping regexp
   route to the correct handler through a recursive tree search, thanks to @Jahaja for the PR/fix!
 - new middleware.RouteHeaders as a simple router for request headers with wildcard support
-- History of changes: see github.com/PhilipJovanovic/phi/phi/compare/v4.1.0...v4.1.1
+- History of changes: see go.philip.id/phi/phi/compare/v4.1.0...v4.1.1
 
 
 ## v4.1.0 (2020-04-1)
@@ -147,13 +147,13 @@ Cheers all, happy coding!
   and an extra interface type useful for custom logger implementations.
 - middleware.WrapResponseWriter: minor fix
 - middleware.Recoverer: a bit prettier
-- History of changes: see github.com/PhilipJovanovic/phi/phi/compare/v4.0.4...v4.1.0
+- History of changes: see go.philip.id/phi/phi/compare/v4.0.4...v4.1.0
 
 ## v4.0.4 (2020-03-24)
 
-- middleware.Recoverer: new pretty stack trace printing (github.com/PhilipJovanovic/phi/phi/pull/496)
+- middleware.Recoverer: new pretty stack trace printing (go.philip.id/phi/phi/pull/496)
 - a few minor improvements and fixes
-- History of changes: see github.com/PhilipJovanovic/phi/phi/compare/v4.0.3...v4.0.4
+- History of changes: see go.philip.id/phi/phi/compare/v4.0.3...v4.0.4
 
 
 ## v4.0.3 (2020-01-09)
@@ -161,19 +161,19 @@ Cheers all, happy coding!
 - core: fix regexp routing to include default value when param is not matched
 - middleware: rewrite of middleware.Compress
 - middleware: suppress http.ErrAbortHandler in middleware.Recoverer
-- History of changes: see github.com/PhilipJovanovic/phi/phi/compare/v4.0.2...v4.0.3
+- History of changes: see go.philip.id/phi/phi/compare/v4.0.2...v4.0.3
 
 
 ## v4.0.2 (2019-02-26)
 
 - Minor fixes
-- History of changes: see github.com/PhilipJovanovic/phi/phi/compare/v4.0.1...v4.0.2
+- History of changes: see go.philip.id/phi/phi/compare/v4.0.1...v4.0.2
 
 
 ## v4.0.1 (2019-01-21)
 
 - Fixes issue with compress middleware: #382 #385
-- History of changes: see github.com/PhilipJovanovic/phi/phi/compare/v4.0.0...v4.0.1
+- History of changes: see go.philip.id/phi/phi/compare/v4.0.0...v4.0.1
 
 
 ## v4.0.0 (2019-01-10)
@@ -183,20 +183,20 @@ Cheers all, happy coding!
 - router: additional check to ensure wildcard is at the end of a url pattern (#333)
 - middleware: deprecate use of http.CloseNotifier (#347)
 - middleware: fix RedirectSlashes to include query params on redirect (#334)
-- History of changes: see github.com/PhilipJovanovic/phi/phi/compare/v3.3.4...v4.0.0
+- History of changes: see go.philip.id/phi/phi/compare/v3.3.4...v4.0.0
 
 
 ## v3.3.4 (2019-01-07)
 
 - Minor middleware improvements. No changes to core library/router. Moving v3 into its
 - own branch as a version of phi for Go 1.7, 1.8, 1.9, 1.10, 1.11
-- History of changes: see github.com/PhilipJovanovic/phi/phi/compare/v3.3.3...v3.3.4
+- History of changes: see go.philip.id/phi/phi/compare/v3.3.3...v3.3.4
 
 
 ## v3.3.3 (2018-08-27)
 
 - Minor release
-- See github.com/PhilipJovanovic/phi/phi/compare/v3.3.2...v3.3.3
+- See go.philip.id/phi/phi/compare/v3.3.2...v3.3.3
 
 
 ## v3.3.2 (2017-12-22)
@@ -239,11 +239,11 @@ Cheers all, happy coding!
 ## v3.1.0 (2017-07-10)
 
 - Fix a few minor issues after v3 release
-- Move `docgen` sub-pkg to github.com/PhilipJovanovic/phi/docgen
-- Move `render` sub-pkg to github.com/PhilipJovanovic/phi/render
+- Move `docgen` sub-pkg to go.philip.id/phi/docgen
+- Move `render` sub-pkg to go.philip.id/phi/render
 - Add new `URLFormat` handler to phi/middleware sub-pkg to make working with url mime 
   suffixes easier, ie. parsing `/articles/1.json` and `/articles/1.xml`. See comments in
-  github.com/PhilipJovanovic/phi/phi/blob/master/middleware/url_format.go for example usage.
+  go.philip.id/phi/phi/blob/master/middleware/url_format.go for example usage.
 
 
 ## v3.0.0 (2017-06-21)
@@ -261,9 +261,9 @@ Cheers all, happy coding!
   own using file handler with the stdlib, see `_examples/fileserver` for an example
 - Add support for LINK/UNLINK http methods via `r.Method()` and `r.MethodFunc()`
 - Moved the phi project to its own organization, to allow phi-related community packages to
-  be easily discovered and supported, at: github.com/PhilipJovanovic/phi
+  be easily discovered and supported, at: go.philip.id/phi
 - *NOTE:* please update your import paths to `"github.com/go-phi/phi"`
-- *NOTE:* phi v2 is still available at github.com/PhilipJovanovic/phi/phi/tree/v2
+- *NOTE:* phi v2 is still available at go.philip.id/phi/phi/tree/v2
 
 
 ## v2.1.0 (2017-03-30)
@@ -305,11 +305,11 @@ Cheers all, happy coding!
 
 ## v1.0.0 (2016-07-01)
 
-- Released phi v1 stable github.com/PhilipJovanovic/phi/phi/tree/v1.0.0 for Go 1.6 and older.
+- Released phi v1 stable go.philip.id/phi/phi/tree/v1.0.0 for Go 1.6 and older.
 
 
 ## v0.9.0 (2016-03-31)
 
-- Reuse context objects via sync.Pool for zero-allocation routing [#33](github.com/PhilipJovanovic/phi/phi/pull/33)
+- Reuse context objects via sync.Pool for zero-allocation routing [#33](go.philip.id/phi/phi/pull/33)
 - BREAKING NOTE: due to subtle API changes, previously `phi.URLParams(ctx)["id"]` used to access url parameters
   has changed to: `phi.URLParam(ctx, "id")`

@@ -3,7 +3,7 @@ package main
 import (
 	"net/http"
 
-	"github.com/PhilipJovanovic/phi"
+	"go.philip.id/phi"
 )
 
 type usersResource struct{}

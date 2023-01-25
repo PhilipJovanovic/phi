@@ -3,7 +3,7 @@ package v1
 import (
 	"net/http"
 
-	"github.com/PhilipJovanovic/phi/_examples/versions/data"
+	"go.philip.id/phi/_examples/versions/data"
 )
 
 // Article presented in API version 1.

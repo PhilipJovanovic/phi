@@ -1,3 +1,3 @@
-module github.com/PhilipJovanovic/phi
+module go.philip.id/phi
 
 go 1.18

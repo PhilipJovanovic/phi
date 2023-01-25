@@ -9,7 +9,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/PhilipJovanovic/phi"
+	"go.philip.id/phi"
 )
 
 var testContent = []byte("Hello world!")

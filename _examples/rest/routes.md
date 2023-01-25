@@ -11,7 +11,7 @@ Welcome to the phi/_examples/rest generated docs.
 - [Logger](/middleware/logger.go#L26)
 - [Recoverer](/middleware/recoverer.go#L18)
 - [URLFormat](/middleware/url_format.go#L45)
-- [SetContentType.func1](github.com/PhilipJovanovic/phi/render/content_type.go#L49)
+- [SetContentType.func1](go.philip.id/phi/render/content_type.go#L49)
 - **/**
 	- _GET_
 		- [main.main.func1](/_examples/rest/main.go#L69)
@@ -24,7 +24,7 @@ Welcome to the phi/_examples/rest generated docs.
 - [Logger](/middleware/logger.go#L26)
 - [Recoverer](/middleware/recoverer.go#L18)
 - [URLFormat](/middleware/url_format.go#L45)
-- [SetContentType.func1](github.com/PhilipJovanovic/phi/render/content_type.go#L49)
+- [SetContentType.func1](go.philip.id/phi/render/content_type.go#L49)
 - **/admin/***
 	- [main.AdminOnly](/_examples/rest/main.go#L238)
 	- **/**
@@ -39,7 +39,7 @@ Welcome to the phi/_examples/rest generated docs.
 - [Logger](/middleware/logger.go#L26)
 - [Recoverer](/middleware/recoverer.go#L18)
 - [URLFormat](/middleware/url_format.go#L45)
-- [SetContentType.func1](github.com/PhilipJovanovic/phi/render/content_type.go#L49)
+- [SetContentType.func1](go.philip.id/phi/render/content_type.go#L49)
 - **/admin/***
 	- [main.AdminOnly](/_examples/rest/main.go#L238)
 	- **/accounts**
@@ -54,7 +54,7 @@ Welcome to the phi/_examples/rest generated docs.
 - [Logger](/middleware/logger.go#L26)
 - [Recoverer](/middleware/recoverer.go#L18)
 - [URLFormat](/middleware/url_format.go#L45)
-- [SetContentType.func1](github.com/PhilipJovanovic/phi/render/content_type.go#L49)
+- [SetContentType.func1](go.philip.id/phi/render/content_type.go#L49)
 - **/admin/***
 	- [main.AdminOnly](/_examples/rest/main.go#L238)
 	- **/users/{userId}**
@@ -69,7 +69,7 @@ Welcome to the phi/_examples/rest generated docs.
 - [Logger](/middleware/logger.go#L26)
 - [Recoverer](/middleware/recoverer.go#L18)
 - [URLFormat](/middleware/url_format.go#L45)
-- [SetContentType.func1](github.com/PhilipJovanovic/phi/render/content_type.go#L49)
+- [SetContentType.func1](go.philip.id/phi/render/content_type.go#L49)
 - **/articles/***
 	- **/**
 		- _GET_
@@ -86,7 +86,7 @@ Welcome to the phi/_examples/rest generated docs.
 - [Logger](/middleware/logger.go#L26)
 - [Recoverer](/middleware/recoverer.go#L18)
 - [URLFormat](/middleware/url_format.go#L45)
-- [SetContentType.func1](github.com/PhilipJovanovic/phi/render/content_type.go#L49)
+- [SetContentType.func1](go.philip.id/phi/render/content_type.go#L49)
 - **/articles/***
 	- **/search**
 		- _GET_
@@ -100,7 +100,7 @@ Welcome to the phi/_examples/rest generated docs.
 - [Logger](/middleware/logger.go#L26)
 - [Recoverer](/middleware/recoverer.go#L18)
 - [URLFormat](/middleware/url_format.go#L45)
-- [SetContentType.func1](github.com/PhilipJovanovic/phi/render/content_type.go#L49)
+- [SetContentType.func1](go.philip.id/phi/render/content_type.go#L49)
 - **/articles/***
 	- **/{articleID}/***
 		- [main.ArticleCtx](/_examples/rest/main.go#L127)
@@ -120,7 +120,7 @@ Welcome to the phi/_examples/rest generated docs.
 - [Logger](/middleware/logger.go#L26)
 - [Recoverer](/middleware/recoverer.go#L18)
 - [URLFormat](/middleware/url_format.go#L45)
-- [SetContentType.func1](github.com/PhilipJovanovic/phi/render/content_type.go#L49)
+- [SetContentType.func1](go.philip.id/phi/render/content_type.go#L49)
 - **/articles/***
 	- **/{articleSlug:[a-z-]+}**
 		- _GET_
@@ -135,7 +135,7 @@ Welcome to the phi/_examples/rest generated docs.
 - [Logger](/middleware/logger.go#L26)
 - [Recoverer](/middleware/recoverer.go#L18)
 - [URLFormat](/middleware/url_format.go#L45)
-- [SetContentType.func1](github.com/PhilipJovanovic/phi/render/content_type.go#L49)
+- [SetContentType.func1](go.philip.id/phi/render/content_type.go#L49)
 - **/panic**
 	- _GET_
 		- [main.main.func3](/_examples/rest/main.go#L77)
@@ -148,7 +148,7 @@ Welcome to the phi/_examples/rest generated docs.
 - [Logger](/middleware/logger.go#L26)
 - [Recoverer](/middleware/recoverer.go#L18)
 - [URLFormat](/middleware/url_format.go#L45)
-- [SetContentType.func1](github.com/PhilipJovanovic/phi/render/content_type.go#L49)
+- [SetContentType.func1](go.philip.id/phi/render/content_type.go#L49)
 - **/ping**
 	- _GET_
 		- [main.main.func2](/_examples/rest/main.go#L73)

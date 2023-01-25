@@ -1,16 +1,16 @@
-//
 // Limits
 // ======
 // This example demonstrates the use of Timeout, and Throttle middlewares.
 //
 // Timeout:
-//   cancel a request if processing takes longer than 2.5 seconds,
-//   server will respond with a http.StatusGatewayTimeout.
+//
+//	cancel a request if processing takes longer than 2.5 seconds,
+//	server will respond with a http.StatusGatewayTimeout.
 //
 // Throttle:
-//   limit the number of in-flight requests along a particular
-//   routing path and backlog the others.
 //
+//	limit the number of in-flight requests along a particular
+//	routing path and backlog the others.
 package main
 
 import (
@@ -20,8 +20,8 @@ import (
 	"net/http"
 	"time"
 
-	phi "github.com/PhilipJovanovic/phi"
-	"github.com/PhilipJovanovic/phi/middleware"
+	phi "go.philip.id/phi"
+	"go.philip.id/phi/middleware"
 )
 
 func main() {

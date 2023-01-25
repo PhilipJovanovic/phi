@@ -7,7 +7,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/PhilipJovanovic/phi"
+	"go.philip.id/phi"
 )
 
 func panicingHandler(http.ResponseWriter, *http.Request) { panic("foo") }

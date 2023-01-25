@@ -11,7 +11,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/PhilipJovanovic/phi"
+	"go.philip.id/phi"
 )
 
 func TestCompressor(t *testing.T) {

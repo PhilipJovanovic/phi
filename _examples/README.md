@@ -1,17 +1,17 @@
 phi examples
 ============
 
-* [custom-handler](github.com/PhilipJovanovic/phi/phi/blob/master/_examples/custom-handler/main.go) - Use a custom handler function signature
-* [custom-method](github.com/PhilipJovanovic/phi/phi/blob/master/_examples/custom-method/main.go) - Add a custom HTTP method
-* [fileserver](github.com/PhilipJovanovic/phi/phi/blob/master/_examples/fileserver/main.go) - Easily serve static files
-* [graceful](github.com/PhilipJovanovic/phi/phi/blob/master/_examples/graceful/main.go) - Graceful context signaling and server shutdown
-* [hello-world](github.com/PhilipJovanovic/phi/phi/blob/master/_examples/hello-world/main.go) - Hello World!
-* [limits](github.com/PhilipJovanovic/phi/phi/blob/master/_examples/limits/main.go) - Timeouts and Throttling
-* [logging](github.com/PhilipJovanovic/phi/phi/blob/master/_examples/logging/main.go) - Easy structured logging for any backend
-* [rest](github.com/PhilipJovanovic/phi/phi/blob/master/_examples/rest/main.go) - REST APIs made easy, productive and maintainable
-* [router-walk](github.com/PhilipJovanovic/phi/phi/blob/master/_examples/router-walk/main.go) - Print to stdout a router's routes
-* [todos-resource](github.com/PhilipJovanovic/phi/phi/blob/master/_examples/todos-resource/main.go) - Struct routers/handlers, an example of another code layout style
-* [versions](github.com/PhilipJovanovic/phi/phi/blob/master/_examples/versions/main.go) - Demo of `phi/render` subpkg
+* [custom-handler](go.philip.id/phi/phi/blob/master/_examples/custom-handler/main.go) - Use a custom handler function signature
+* [custom-method](go.philip.id/phi/phi/blob/master/_examples/custom-method/main.go) - Add a custom HTTP method
+* [fileserver](go.philip.id/phi/phi/blob/master/_examples/fileserver/main.go) - Easily serve static files
+* [graceful](go.philip.id/phi/phi/blob/master/_examples/graceful/main.go) - Graceful context signaling and server shutdown
+* [hello-world](go.philip.id/phi/phi/blob/master/_examples/hello-world/main.go) - Hello World!
+* [limits](go.philip.id/phi/phi/blob/master/_examples/limits/main.go) - Timeouts and Throttling
+* [logging](go.philip.id/phi/phi/blob/master/_examples/logging/main.go) - Easy structured logging for any backend
+* [rest](go.philip.id/phi/phi/blob/master/_examples/rest/main.go) - REST APIs made easy, productive and maintainable
+* [router-walk](go.philip.id/phi/phi/blob/master/_examples/router-walk/main.go) - Print to stdout a router's routes
+* [todos-resource](go.philip.id/phi/phi/blob/master/_examples/todos-resource/main.go) - Struct routers/handlers, an example of another code layout style
+* [versions](go.philip.id/phi/phi/blob/master/_examples/versions/main.go) - Demo of `phi/render` subpkg
 
 
 ## Usage

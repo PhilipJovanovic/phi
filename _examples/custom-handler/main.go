@@ -4,7 +4,7 @@ import (
 	"errors"
 	"net/http"
 
-	phi "github.com/PhilipJovanovic/phi"
+	phi "go.philip.id/phi"
 )
 
 type Handler func(w http.ResponseWriter, r *http.Request) error

@@ -1,8 +1,6 @@
-//
 // FileServer
 // ===========
 // This example demonstrates how to serve static files from your filesystem.
-//
 //
 // Boot the server:
 // ----------------
@@ -17,7 +15,6 @@
 //
 // $ curl http://localhost:3333/files/notes.txt
 // Notessszzz
-//
 package main
 
 import (
@@ -26,8 +23,8 @@ import (
 	"path/filepath"
 	"strings"
 
-	phi "github.com/PhilipJovanovic/phi"
-	"github.com/PhilipJovanovic/phi/middleware"
+	phi "go.philip.id/phi"
+	"go.philip.id/phi/middleware"
 )
 
 func main() {

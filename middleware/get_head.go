@@ -3,7 +3,7 @@ package middleware
 import (
 	"net/http"
 
-	phi "github.com/PhilipJovanovic/phi"
+	phi "go.philip.id/phi"
 )
 
 // GetHead automatically route undefined HEAD requests to GET handlers.

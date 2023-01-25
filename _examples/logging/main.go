@@ -1,4 +1,3 @@
-//
 // Custom Structured Logger
 // ========================
 // This example demonstrates how to use middleware.RequestLogger,
@@ -8,7 +7,6 @@
 //
 // Also: check out https://github.com/goware/httplog for an improved context
 // logger with support for HTTP request logging, based on the example below.
-//
 package main
 
 import (
@@ -16,9 +14,9 @@ import (
 	"net/http"
 	"time"
 
-	phi "github.com/PhilipJovanovic/phi"
-	"github.com/PhilipJovanovic/phi/middleware"
 	"github.com/sirupsen/logrus"
+	phi "go.philip.id/phi"
+	"go.philip.id/phi/middleware"
 )
 
 func main() {
@@ -54,7 +52,7 @@ func main() {
 
 // StructuredLogger is a simple, but powerful implementation of a custom structured
 // logger backed on logrus. I encourage users to copy it, adapt it and make it their
-// own. Also take a look at github.com/PhilipJovanovic/phi/httplog for a dedicated pkg based
+// own. Also take a look at go.philip.id/phi/httplog for a dedicated pkg based
 // on this work, designed for context-based http routers.
 
 func NewStructuredLogger(logger *logrus.Logger) func(next http.Handler) http.Handler {

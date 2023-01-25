@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"strings"
 
-	phi "github.com/PhilipJovanovic/phi"
+	phi "go.philip.id/phi"
 )
 
 func main() {
