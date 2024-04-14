@@ -12,8 +12,9 @@ var (
 )
 
 type Error struct {
-	Error   string
-	Message string
+	Error      string
+	Message    string
+	StatusCode int
 }
 
 type ErrorHandler func(w http.ResponseWriter, r *http.Request) *Error
