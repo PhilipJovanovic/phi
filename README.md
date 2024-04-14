@@ -1,7 +1,10 @@
 # <img alt="phi" src="https://cdn.rawgit.com/go-phi/phi/master/_examples/phi.svg" width="220" />
 
-
 [![GoDoc Widget]][GoDoc] [![Travis Widget]][Travis]
+
+`phi` is a fork and opinionated extended version of `go-chi`. The main difference is an extended built in error handling for a more convenient way of route handlers. Therefore the following is just copy pasted from `go-chi` and all of the credits go to the main project at [go-chi](https://github.com/go-chi/chi).
+
+`phi` migh have undocumented changes and might not be ready for production.
 
 `phi` is a lightweight, idiomatic and composable router for building Go HTTP services. It's
 especially good at helping you write large REST API services that are kept maintainable as your
@@ -22,24 +25,23 @@ and [docgen](go.philip.id/phi/docgen). We hope you enjoy it too!
 
 `go get -u go.philip.id/phi`
 
-
 ## Features
 
-* **Lightweight** - cloc'd in ~1000 LOC for the phi router
-* **Fast** - yes, see [benchmarks](#benchmarks)
-* **100% compatible with net/http** - use any http or middleware pkg in the ecosystem that is also compatible with `net/http`
-* **Designed for modular/composable APIs** - middlewares, inline middlewares, route groups and sub-router mounting
-* **Context control** - built on new `context` package, providing value chaining, cancellations and timeouts
-* **Robust** - in production at Pressly, Cloudflare, Heroku, 99Designs, and many others (see [discussion](go.philip.id/phi/phi/issues/91))
-* **Doc generation** - `docgen` auto-generates routing documentation from your source to JSON or Markdown
-* **Go.mod support** - as of v5, go.mod support (see [CHANGELOG](go.philip.id/phi/phi/blob/master/CHANGELOG.md))
-* **No external dependencies** - plain ol' Go stdlib + net/http
-
+-   **Lightweight** - cloc'd in ~1000 LOC for the phi router
+-   **Fast** - yes, see [benchmarks](#benchmarks)
+-   **100% compatible with net/http** - use any http or middleware pkg in the ecosystem that is also compatible with `net/http`
+-   **Designed for modular/composable APIs** - middlewares, inline middlewares, route groups and sub-router mounting
+-   **Context control** - built on new `context` package, providing value chaining, cancellations and timeouts
+-   **Robust** - in production at Pressly, Cloudflare, Heroku, 99Designs, and many others (see [discussion](go.philip.id/phi/phi/issues/91))
+-   **Doc generation** - `docgen` auto-generates routing documentation from your source to JSON or Markdown
+-   **Go.mod support** - as of v5, go.mod support (see [CHANGELOG](go.philip.id/phi/phi/blob/master/CHANGELOG.md))
+-   **No external dependencies** - plain ol' Go stdlib + net/http
+-   **Opinionated built in error handling** - just return an error instead of having to deal with complicated error chains
+-   **Cors built in** - cors has been forked from [github.com/go-chi/cors](https://github.com/go-chi/cors)
 
 ## Examples
 
-See [_examples/](go.philip.id/phi/phi/blob/master/_examples/) for a variety of examples.
-
+See [\_examples/](go.philip.id/phi/phi/blob/master/_examples/) for a variety of examples.
 
 **As easy as:**
 
@@ -169,7 +171,6 @@ func AdminOnly(next http.Handler) http.Handler {
 }
 ```
 
-
 ## Router interface
 
 phi's router is based on a kind of [Patricia Radix trie](https://en.wikipedia.org/wiki/Radix_tree).
@@ -251,7 +252,6 @@ supports named params (ie. `/users/{userID}`) and wildcards (ie. `/admin/*`). UR
 can be fetched at runtime by calling `phi.URLParam(r, "userID")` for named parameters
 and `phi.URLParam(r, "*")` for a wildcard parameter.
 
-
 ### Middleware handlers
 
 phi's middlewares are just stdlib net/http middleware handlers. There is nothing special
@@ -282,7 +282,6 @@ func MyMiddleware(next http.Handler) http.Handler {
 }
 ```
 
-
 ### Request handlers
 
 phi uses standard net/http request handlers. This little snippet is an example of a http.Handler
@@ -300,7 +299,6 @@ func MyRequestHandler(w http.ResponseWriter, r *http.Request) {
   w.Write([]byte(fmt.Sprintf("hi %s", user)))
 }
 ```
-
 
 ### URL parameters
 
@@ -324,7 +322,6 @@ func MyRequestHandler(w http.ResponseWriter, r *http.Request) {
 }
 ```
 
-
 ## Middlewares
 
 phi comes equipped with an optional `middleware` package, providing a suite of standard
@@ -333,7 +330,8 @@ with `net/http` can be used with phi's mux.
 
 ### Core middlewares
 
-----------------------------------------------------------------------------------------------------
+---
+
 | phi/middleware Handler | description                                                             |
 | :--------------------- | :---------------------------------------------------------------------- |
 | [AllowContentEncoding] | Enforces a whitelist of request Content-Encoding headers                |
@@ -358,7 +356,8 @@ with `net/http` can be used with phi's mux.
 | [Timeout]              | Signals to the request context when the timeout deadline is reached     |
 | [URLFormat]            | Parse extension from url and put it on request context                  |
 | [WithValue]            | Short-hand middleware to set a key/value on the request context         |
-----------------------------------------------------------------------------------------------------
+
+---
 
 [AllowContentEncoding]: https://pkg.go.dev/github.com/go-phi/phi/middleware#AllowContentEncoding
 [AllowContentType]: https://pkg.go.dev/github.com/go-phi/phi/middleware#AllowContentType
@@ -402,20 +401,21 @@ with `net/http` can be used with phi's mux.
 
 Please see go.philip.id/phi for additional packages.
 
---------------------------------------------------------------------------------------------------------------------
-| package                                            | description                                                 |
-|:---------------------------------------------------|:-------------------------------------------------------------
-| [cors](go.philip.id/phi/cors)             | Cross-origin resource sharing (CORS)                        |
-| [docgen](go.philip.id/phi/docgen)         | Print phi.Router routes at runtime                          |
-| [jwtauth](go.philip.id/phi/jwtauth)       | JWT authentication                                          |
-| [hostrouter](go.philip.id/phi/hostrouter) | Domain/host based request routing                           |
-| [httplog](go.philip.id/phi/httplog)       | Small but powerful structured HTTP request logging          |
-| [httprate](go.philip.id/phi/httprate)     | HTTP request rate limiter                                   |
-| [httptracer](go.philip.id/phi/httptracer) | HTTP request performance tracing library                    |
-| [httpvcr](go.philip.id/phi/httpvcr)       | Write deterministic tests for external sources              |
-| [stampede](go.philip.id/phi/stampede)     | HTTP request coalescer                                      |
---------------------------------------------------------------------------------------------------------------------
+---
 
+| package                                   | description                                        |
+| :---------------------------------------- | :------------------------------------------------- |
+| [cors](go.philip.id/phi/cors)             | Cross-origin resource sharing (CORS)               |
+| [docgen](go.philip.id/phi/docgen)         | Print phi.Router routes at runtime                 |
+| [jwtauth](go.philip.id/phi/jwtauth)       | JWT authentication                                 |
+| [hostrouter](go.philip.id/phi/hostrouter) | Domain/host based request routing                  |
+| [httplog](go.philip.id/phi/httplog)       | Small but powerful structured HTTP request logging |
+| [httprate](go.philip.id/phi/httprate)     | HTTP request rate limiter                          |
+| [httptracer](go.philip.id/phi/httptracer) | HTTP request performance tracing library           |
+| [httpvcr](go.philip.id/phi/httpvcr)       | Write deterministic tests for external sources     |
+| [stampede](go.philip.id/phi/stampede)     | HTTP request coalescer                             |
+
+---
 
 ## context?
 
@@ -426,9 +426,9 @@ and is available in stdlib since go1.7.
 Learn more at https://blog.golang.org/context
 
 and..
-* Docs: https://golang.org/pkg/context
-* Source: https://github.com/golang/go/tree/master/src/context
 
+-   Docs: https://golang.org/pkg/context
+-   Source: https://github.com/golang/go/tree/master/src/context
 
 ## Benchmarks
 
@@ -462,17 +462,15 @@ NOTE: the allocs in the benchmark above are from the calls to http.Request's
 on the duplicated (alloc'd) request and returns it the new request object. This is just
 how setting context on a request in Go works.
 
-
 ## Credits
 
-* Carl Jackson for https://github.com/zenazn/goji
-  * Parts of phi's thinking comes from goji, and phi's middleware package
-    sources from goji.
-* Armon Dadgar for https://github.com/armon/go-radix
-* Contributions: [@VojtechVitek](https://github.com/VojtechVitek)
+-   Carl Jackson for https://github.com/zenazn/goji
+    -   Parts of phi's thinking comes from goji, and phi's middleware package
+        sources from goji.
+-   Armon Dadgar for https://github.com/armon/go-radix
+-   Contributions: [@VojtechVitek](https://github.com/VojtechVitek)
 
 We'll be more than happy to see [your contributions](./CONTRIBUTING.md)!
-
 
 ## Beyond REST
 
@@ -482,11 +480,11 @@ for managing state via HTTP, and there's a lot of other pieces required to write
 system or network of microservices.
 
 Looking beyond REST, I also recommend some newer works in the field:
-* [webrpc](https://github.com/webrpc/webrpc) - Web-focused RPC client+server framework with code-gen
-* [gRPC](https://github.com/grpc/grpc-go) - Google's RPC framework via protobufs
-* [graphql](https://github.com/99designs/gqlgen) - Declarative query language
-* [NATS](https://nats.io) - lightweight pub-sub
 
+-   [webrpc](https://github.com/webrpc/webrpc) - Web-focused RPC client+server framework with code-gen
+-   [gRPC](https://github.com/grpc/grpc-go) - Google's RPC framework via protobufs
+-   [graphql](https://github.com/99designs/gqlgen) - Declarative query language
+-   [NATS](https://nats.io) - lightweight pub-sub
 
 ## License
 
