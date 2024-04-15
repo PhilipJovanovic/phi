@@ -11,14 +11,16 @@ var (
 	}
 )
 
-type Handler func(w *Response, r *http.Request) *Error
+type Handler func(w *Response, r *Request) *Error
 
 func (h Handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	if err := h(
 		&Response{
 			ResponseWriter: w,
 		},
-		r,
+		&Request{
+			Request: r,
+		},
 	); err != nil {
 		defaultHandler(w, r, err)
 	}

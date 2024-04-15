@@ -77,6 +77,29 @@ func (w Response) Error(err *Error) *Error {
 	return nil
 }
 
+// send error response with custom status code
+func (w Response) ErrorCustomStatus(err *Error, statusCode int) *Error {
+	if w.Header().Get("Content-Type") == "" {
+		w.Header().Set("Content-Type", "application/json")
+	}
+
+	parsed, er := json.Marshal(Map{
+		"error":   err.Error,
+		"message": err.Message,
+	})
+	if er != nil {
+		return &parseError
+	}
+
+	w.WriteHeader(statusCode)
+
+	if _, er = w.Write(parsed); er != nil {
+		return &writingError
+	}
+
+	return nil
+}
+
 // send redirect response
 func (w Response) Redirect(req *http.Request, location string, code int) *Error {
 	http.Redirect(w.ResponseWriter, req, location, code)

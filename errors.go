@@ -10,6 +10,11 @@ var (
 		Error:   "parseError",
 		Message: "error while parsing response",
 	}
+
+	decodingError = Error{
+		Error:   "decodingError",
+		Message: "error while decoding request body",
+	}
 )
 
 type Error struct {
@@ -27,9 +32,25 @@ func ValidatingError(e error) *Error {
 }
 
 // Parameter error for error handling regarding parameter missing /yeet/{cid} -> cid = parameter
-func ParameterError(e string) *Error {
+func URLParameterError(e string) *Error {
 	return &Error{
-		Error:   "missingParameters",
+		Error:   "missingURLParameters",
+		Message: e,
+	}
+}
+
+// Query Parameter error for error handling regarding parameter missing /yeet?id=1337 -> id = query parameter
+func QueryParameterError(e string) *Error {
+	return &Error{
+		Error:   "missingQueryParameters",
+		Message: e,
+	}
+}
+
+// Body Parameter error for error handling regarding parameter missing POST body = { "data": "123"} -> data = body parameter
+func BodyParameterError(e string) *Error {
+	return &Error{
+		Error:   "missingBodyParameters",
 		Message: e,
 	}
 }

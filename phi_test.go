@@ -94,6 +94,6 @@ func handleRoot(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte("Hello, World!"))
 }
 
-func handleNewHandler(res *Response, req *http.Request) *Error {
+func handleNewHandler(res *Response, req *Request) *Error {
 	return res.JSON("Hello World!")
 }
