@@ -3,9 +3,20 @@ package phi
 var (
 	writingError = Error{
 		Error:   "writingError",
-		Message: "error writing response",
+		Message: "error while writing response",
+	}
+
+	parseError = Error{
+		Error:   "parseError",
+		Message: "error while parsing response",
 	}
 )
+
+type Error struct {
+	Error      string
+	Message    string
+	StatusCode int
+}
 
 // Validation error can be used for validating post bodies
 func ValidatingError(e error) *Error {
@@ -18,7 +29,7 @@ func ValidatingError(e error) *Error {
 // Parameter error for error handling regarding parameter missing /yeet/{cid} -> cid = parameter
 func ParameterError(e string) *Error {
 	return &Error{
-		Error:   "parameter(s) missing",
+		Error:   "missingParameters",
 		Message: e,
 	}
 }
@@ -31,10 +42,11 @@ func UnknownError(e error) *Error {
 	}
 }
 
-// Unauthorized error
+// Unauthorized error + statuscode 401
 func Unauthorized() *Error {
 	return &Error{
-		Error:   "unauthorized",
-		Message: "invalid token",
+		Error:      "unauthorized",
+		Message:    "invalid token",
+		StatusCode: 401,
 	}
 }

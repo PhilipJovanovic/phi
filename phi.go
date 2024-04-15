@@ -55,7 +55,9 @@
 //	"/date/{yyyy:\\d\\d\\d\\d}/{mm:\\d\\d}/{dd:\\d\\d}" matches "/date/2017/04/01"
 package phi
 
-import "net/http"
+import (
+	"net/http"
+)
 
 // NewRouter returns a new Mux object that implements the Router interface.
 func NewRouter() *Mux {
@@ -106,10 +108,10 @@ type Router interface {
 	Trace(pattern string, h http.HandlerFunc)
 
 	// HTTP-method with error handling functionality
-	GET(pattern string, h func(w http.ResponseWriter, r *http.Request) *Error)
-	POST(pattern string, h func(w http.ResponseWriter, r *http.Request) *Error)
-	PUT(pattern string, h func(w http.ResponseWriter, r *http.Request) *Error)
-	DELETE(pattern string, h func(w http.ResponseWriter, r *http.Request) *Error)
+	GET(pattern string, h Handler)
+	POST(pattern string, h Handler)
+	PUT(pattern string, h Handler)
+	DELETE(pattern string, h Handler)
 
 	// NotFound defines a handler to respond whenever a route could
 	// not be found.
@@ -138,3 +140,6 @@ type Routes interface {
 // Middlewares type is a slice of standard middleware handlers with methods
 // to compose middleware chains and http.Handler's.
 type Middlewares []func(http.Handler) http.Handler
+
+// Helper for easily defining a map[string]interface{} in JSON responses.
+type Map map[string]interface{}
