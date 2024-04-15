@@ -1,6 +1,7 @@
 package phi
 
 import (
+	"bytes"
 	"fmt"
 	"io"
 	"net/http"
@@ -15,11 +16,12 @@ func TestMain(t *testing.T) {
 
 	r.Route("/", func(r Router) {
 		r.Get("/standard", handleRoot)
-		r.GET("/newHandler", handleNewHandler)
+		r.POST("/newHandler", handleNewHandler)
 	})
 
 	t.Run("Test Standard", TestStandard)
 	t.Run("New Handler", TestNewHandler)
+	t.Run("New Handler 2", TestNewHandler2)
 }
 
 func TestStandard(t *testing.T) {
@@ -74,7 +76,8 @@ func TestError(t *testing.T) {
 }
 
 func TestNewHandler(t *testing.T) {
-	req := httptest.NewRequest("GET", "/newHandler", nil)
+	data := bytes.NewBuffer([]byte("{\"data\":\"1337\"}"))
+	req := httptest.NewRequest("POST", "/newHandler", data)
 
 	recorder := httptest.NewRecorder()
 
@@ -87,7 +90,33 @@ func TestNewHandler(t *testing.T) {
 	if err != nil {
 		t.Errorf("expected err to be nil got %v", err)
 	}
-	fmt.Printf("Body: %s\n", body)
+
+	expected := "{\"data\":\"success\"}"
+	if fmt.Sprintf("%s", body) != expected {
+		t.Errorf("expected body to be {\"data\":\"success\"} got %s", body)
+	}
+}
+
+func TestNewHandler2(t *testing.T) {
+	data := bytes.NewBuffer([]byte("{\"data\":\"1338\"}"))
+	req := httptest.NewRequest("POST", "/newHandler", data)
+
+	recorder := httptest.NewRecorder()
+
+	r.ServeHTTP(recorder, req)
+
+	res := recorder.Result()
+	defer res.Body.Close()
+
+	body, err := io.ReadAll(res.Body)
+	if err != nil {
+		t.Errorf("expected err to be nil got %v", err)
+	}
+
+	expected := "{\"error\":\"Invalid Data\",\"message\":\"Data is not 1337\"}"
+	if fmt.Sprintf("%s", body) != expected {
+		t.Errorf("expected body to be {\"data\":\"success\"} got %s", body)
+	}
 }
 
 func handleRoot(w http.ResponseWriter, r *http.Request) {
@@ -95,5 +124,19 @@ func handleRoot(w http.ResponseWriter, r *http.Request) {
 }
 
 func handleNewHandler(res *Response, req *Request) *Error {
-	return res.JSON("Hello World!")
+	body, err := Validate[struct {
+		Data string `json:"data,required"`
+	}](req)
+	if err != nil {
+		return err
+	}
+
+	if body.Data != "1337" {
+		return &Error{
+			Error:   "Invalid Data",
+			Message: "Data is not 1337",
+		}
+	}
+
+	return res.JSON("success")
 }

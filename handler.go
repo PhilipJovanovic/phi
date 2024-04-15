@@ -1,13 +1,37 @@
 package phi
 
 import (
+	"encoding/json"
 	"errors"
+	"log"
 	"net/http"
 )
 
 var (
 	defaultHandler = func(w http.ResponseWriter, r *http.Request, e *Error) {
-		w.Write([]byte("unknown error"))
+		if w.Header().Get("Content-Type") == "" {
+			w.Header().Set("Content-Type", "application/json")
+		}
+
+		parsed, err := json.Marshal(Map{
+			"error":   e.Error,
+			"message": e.Message,
+		})
+		if err == nil {
+			if _, err = w.Write(parsed); err != nil {
+				log.Printf("#> defaultHandler: %v", err)
+			}
+
+			return
+		}
+
+		if e.StatusCode != 0 {
+			w.WriteHeader(e.StatusCode)
+		}
+
+		if _, err = w.Write(parsed); err != nil {
+			log.Printf("#> defaultHandler: %v", err)
+		}
 	}
 )
 

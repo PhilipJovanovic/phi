@@ -9,18 +9,6 @@ type Response struct {
 	http.ResponseWriter
 }
 
-func (w Response) Header() http.Header {
-	return w.ResponseWriter.Header()
-}
-
-func (w Response) Write(b []byte) (int, error) {
-	return w.ResponseWriter.Write(b)
-}
-
-func (w Response) WriteHeader(code int) {
-	w.ResponseWriter.WriteHeader(code)
-}
-
 // send response with application/json
 func (w Response) JSON(data interface{}) *Error {
 	if w.Header().Get("Content-Type") == "" {
@@ -53,21 +41,17 @@ func (w Response) Response(data []byte, contentType string) *Error {
 }
 
 // send error response with status code
-func (w Response) Error(err *Error) *Error {
+func (w Response) Error(err error) *Error {
 	if w.Header().Get("Content-Type") == "" {
 		w.Header().Set("Content-Type", "application/json")
 	}
 
 	parsed, er := json.Marshal(Map{
-		"error":   err.Error,
-		"message": err.Message,
+		"error":   "unknownError",
+		"message": err.Error(),
 	})
 	if er != nil {
 		return &parseError
-	}
-
-	if err.StatusCode != 0 {
-		w.WriteHeader(err.StatusCode)
 	}
 
 	if _, er = w.Write(parsed); er != nil {
@@ -78,14 +62,14 @@ func (w Response) Error(err *Error) *Error {
 }
 
 // send error response with custom status code
-func (w Response) ErrorCustomStatus(err *Error, statusCode int) *Error {
+func (w Response) ErrorCustomStatus(err error, statusCode int) *Error {
 	if w.Header().Get("Content-Type") == "" {
 		w.Header().Set("Content-Type", "application/json")
 	}
 
 	parsed, er := json.Marshal(Map{
-		"error":   err.Error,
-		"message": err.Message,
+		"error":   "unknownError",
+		"message": err.Error(),
 	})
 	if er != nil {
 		return &parseError

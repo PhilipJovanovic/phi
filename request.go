@@ -3,7 +3,6 @@ package phi
 import (
 	"encoding/json"
 	"fmt"
-	"io"
 	"net/http"
 	"reflect"
 	"strings"
@@ -11,10 +10,6 @@ import (
 
 type Request struct {
 	*http.Request
-}
-
-func (r *Request) GetBody() (io.ReadCloser, error) {
-	return r.Request.GetBody()
 }
 
 // /yeet/{cid} -> cid = parameter
@@ -28,7 +23,7 @@ func (r *Request) URLParam(id string) (string, *Error) {
 
 // /yeet?id=1337 -> id = query parameter
 func (r *Request) QueryParam(id string) (string, *Error) {
-	if s := r.Request.FormValue(id); s != "" {
+	if s := r.FormValue(id); s != "" {
 		return s, nil
 	}
 
