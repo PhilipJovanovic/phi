@@ -30,6 +30,13 @@ func (r *Request) QueryParam(id string) (string, *Error) {
 	return "", QueryParameterError(id)
 }
 
+// if JWTAuth middleware is used, this function can be used to extract the token from the context
+/* func (r *Request) GetContextToken(id string) *middleware.Token {
+	token := r.Context().Value(middleware.TOKEN_CONTEXT).(middleware.Token)
+
+	return &token
+} */
+
 // Validate post bodies
 // Example:
 //

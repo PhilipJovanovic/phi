@@ -42,7 +42,7 @@ from a request by using the `Verify` middleware instantiator directly. The defau
 
 # Usage
 
-See the full [example](https://github.com/phi/jwtauth/blob/master/_example/main.go).
+See the full [example](https://github.com/philipjovanovic/phi/jwtauth/blob/master/_example/main.go).
 
 ```go
 package main

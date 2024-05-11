@@ -2,55 +2,234 @@ package middleware
 
 import (
 	"context"
+	"errors"
 	"net/http"
 
-	"github.com/lestrrat-go/jwx/jwt"
+	"github.com/lestrrat-go/jwx/v2/jwt"
+	"go.philip.id/phi"
 	"go.philip.id/phi/jwtauth"
 )
 
-// Checks for jwt bearer token
-func BearerAuth(next http.Handler) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		// * JWT Bearer Token Validation
-		if token := checkBearer(r); token != nil {
-			ctx := context.WithValue(r.Context(), "userToken", *token)
-
-			next.ServeHTTP(w, r.WithContext(ctx))
-			return
-		}
-	})
+type Token struct {
+	ID      string `json:"id"`
+	Subject string `json:"subject"`
 }
 
-func checkBearer(r *http.Request) *auth.UserTokenObject {
-	// * JWT Bearer Token Validation
-	token, _, err := jwtauth.FromContext(r.Context())
+type TOKEN_TYPE string
 
-	if err == nil && token != nil && jwt.Validate(token) == nil {
-		if i, ok := token.Get("i"); ok {
-			scope := Unknown
+// Use this type to get/set the token from the context
+const TOKEN_CONTEXT TOKEN_TYPE = "_token"
 
-			for _, role := range token.PrivateClaims()["roles"].([]interface{}) {
-				// There are only 3 types of bearer (only for the dash)
-				if role.(string) == "ADMIN" {
-					scope = Admin
-				}
+var (
+	unauthorizedFunc = phi.Unauthorized
+	tokenCheckFunc   = ImplementAccessCheck
+)
 
-				if role.(string) == "USER" {
-					scope = Regular
-				}
+// SetUnauthorizedFunc sets the function to be called when a request is unauthorized
+//
+// default is phi.Unauthorized
+func SetUnauthorizedFunc(fn func() *phi.Error) {
+	unauthorizedFunc = fn
+}
 
-				if role.(string) == "SUPPORT" {
-					scope = Support
-				}
-			}
+// set new tokencheck function, f.e.. check username, password against a database
+//
+// Example (mongopiet):
+//
+//	func TokenCheck(username, password string) (*Token, error) {
+//		token, err := database.FindOne("apiTokens", bson.M{"token": username})
+//		if err != nil {
+//			return nil, errors.New("not found")
+//		}
+//
+//		return &phi.Token{
+//			ID:     a.User.Hex(),
+//			Source:  a.Source,
+//		}
+//	}
+func SetTokenCheckFunc(fn func(username, password string) (*Token, error)) {
+	tokenCheckFunc = fn
+}
 
-			return &auth.UserTokenObject{
-				ID:     i.(string),
-				Scope:  scope,
-				Source: "_nofy_",
-			}
-		}
+// default implementation of token check, wont work in production!
+func ImplementAccessCheck(username, password string) (*Token, error) {
+	return nil, errors.New("not implemented")
+}
+
+// GetToken returns the token from the context
+func GetToken(r *phi.Request) *Token {
+	if token, ok := r.Context().Value(TOKEN_CONTEXT).(Token); ok {
+		return &token
 	}
 
 	return nil
+}
+
+// Checks for bearer token or basic auth and returns unauthorized if not found
+//
+// unauthorized response can be set via SetTokenCheckFunc
+//
+// Can be used for endpoints which are gonna be used for a frontend and from an api
+// at the same time
+//
+// Tokens can be extracted like one of the following:
+//
+//	token := r.Context().Value(middleware.TOKEN_CONTEXT).(middleware.Token)
+//	token := phi.GetToken(r) // only works with *phi.Request
+func JWTOrAPIAuth(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		if token, err := checkBearer(r); err == nil {
+			ctx := context.WithValue(r.Context(), TOKEN_CONTEXT, *token)
+			next.ServeHTTP(w, r.WithContext(ctx))
+			return
+		}
+
+		if token, err := checkBasic(r); err == nil {
+			ctx := context.WithValue(r.Context(), TOKEN_CONTEXT, *token)
+			next.ServeHTTP(w, r.WithContext(ctx))
+			return
+		}
+
+		phi.ErrorHandler(w, r, unauthorizedFunc())
+	})
+}
+
+// Same as JWTOrAPIAuth but continues without adding the token if unauthorized
+//
+// Can be used for cases where an authenticated user will receive a different
+// response but still has access to the ressource
+func JWTOrAPIAuthOptional(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		if token, err := checkBearer(r); err == nil {
+			ctx := context.WithValue(r.Context(), TOKEN_CONTEXT, *token)
+			next.ServeHTTP(w, r.WithContext(ctx))
+			return
+		}
+
+		if token, err := checkBasic(r); err == nil {
+			ctx := context.WithValue(r.Context(), TOKEN_CONTEXT, *token)
+			next.ServeHTTP(w, r.WithContext(ctx))
+			return
+		}
+
+		next.ServeHTTP(w, r)
+	})
+}
+
+// Checks for bearer token and returns unauthorized if not found
+//
+// unauthorized response can be set via SetTokenCheckFunc
+//
+// Can be used for frontend authentication, middleware expects jwt token at every request,
+// needs to be refreshed after expiry
+//
+// Tokens can be extracted like one of the following:
+//
+//	token := r.Context().Value(middleware.TOKEN_CONTEXT).(middleware.Token)
+//	token := phi.GetToken(r) // only works with *phi.Request
+func JWTAuth(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		token, err := checkBearer(r)
+		if err != nil {
+			phi.ErrorHandler(w, r, unauthorizedFunc())
+			return
+		}
+
+		ctx := context.WithValue(r.Context(), TOKEN_CONTEXT, *token)
+		next.ServeHTTP(w, r.WithContext(ctx))
+	})
+}
+
+// Same as JWTAuth but continues without adding the token if unauthorized
+//
+// Can be used for cases where an authenticated user will receive a different
+// response but still has access to the ressource
+func JWTAuthOptional(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		token, err := checkBearer(r)
+		if err == nil {
+			next.ServeHTTP(w, r)
+			return
+		}
+
+		ctx := context.WithValue(r.Context(), TOKEN_CONTEXT, *token)
+		next.ServeHTTP(w, r.WithContext(ctx))
+	})
+}
+
+// Checks for basic authentication and returns unauthorized if not found
+//
+// unauthorized response can be set via SetTokenCheckFunc
+//
+// Can be used for api authentication, middleware expects basic header at every request,
+// token is more likely to be longer available and should not be exposed to the client
+//
+// Tokens can be extracted like one of the following:
+//
+//	token := r.Context().Value(middleware.TOKEN_CONTEXT).(middleware.Token)
+//	token := phi.GetToken(r) // only works with *phi.Request
+func APIAuth(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		token, err := checkBasic(r)
+		if err != nil {
+			phi.ErrorHandler(w, r, unauthorizedFunc())
+			return
+		}
+
+		ctx := context.WithValue(r.Context(), TOKEN_CONTEXT, *token)
+		next.ServeHTTP(w, r.WithContext(ctx))
+	})
+}
+
+// Same as APIAuth but continues without adding the token if unauthorized
+//
+// Can be used for cases where an authenticated user will receive a different
+// response but still has access to the ressource
+func APIAuthOptional(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		token, err := checkBasic(r)
+		if err != nil {
+			next.ServeHTTP(w, r)
+			return
+		}
+
+		ctx := context.WithValue(r.Context(), TOKEN_CONTEXT, *token)
+		next.ServeHTTP(w, r.WithContext(ctx))
+	})
+}
+
+// JWT Bearer Token Validation
+func checkBearer(r *http.Request) (*Token, error) {
+	token, _, err := jwtauth.FromContext(r.Context())
+	if err != nil {
+		return nil, err
+	}
+
+	if token != nil && jwt.Validate(token) == nil {
+		t := &Token{}
+
+		// Get only ID for now
+		t.ID = token.JwtID()
+		t.Subject = token.Subject()
+
+		// TODO: add more claim parsing here
+
+		return t, nil
+	}
+
+	return nil, errors.New("token invalid")
+}
+
+// Basic Auth Validation
+func checkBasic(r *http.Request) (*Token, error) {
+	if username, password, ok := r.BasicAuth(); ok {
+		t, err := tokenCheckFunc(username, password)
+		if err != nil {
+			return nil, err
+		}
+
+		return t, nil
+	}
+
+	return nil, errors.New("no basic auth found")
 }
