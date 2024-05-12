@@ -1,4 +1,4 @@
-# <img alt="phi" src="https://cdn.rawgit.com/go-phi/phi/master/_examples/phi.svg" width="220" />
+# <img alt="phi" src="https://raw.githubusercontent.com/PhilipJovanovic/phi/master/_examples/phi.svg" width="220" />
 
 [![GoDoc Widget]][GoDoc] [![Travis Widget]][Travis]
 
