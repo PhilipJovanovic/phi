@@ -6,6 +6,7 @@ import (
 	"net/http"
 
 	"github.com/lestrrat-go/jwx/v2/jwt"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.philip.id/phi"
 	"go.philip.id/phi/jwtauth"
 )
@@ -63,6 +64,21 @@ func GetToken(r *phi.Request) *Token {
 	}
 
 	return nil
+}
+
+// Opinionated helper function to get the user id from the token as primitive.ObjectID
+func GetUserID(r *phi.Request) *primitive.ObjectID {
+	token, ok := r.Context().Value(TOKEN_CONTEXT).(Token)
+	if !ok {
+		return nil
+	}
+
+	id, err := primitive.ObjectIDFromHex(token.ID)
+	if err != nil {
+		return nil
+	}
+
+	return &id
 }
 
 // Checks for bearer token or basic auth and returns unauthorized if not found
