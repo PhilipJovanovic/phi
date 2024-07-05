@@ -57,7 +57,7 @@ func SetUnauthorizedFunc(fn func() *phi.Error) {
 //
 //		return &phi.Token{
 //			ID:     a.User.Hex(),
-//			Source:  a.Source,
+//			Subject:  a.Subject,
 //		}
 //	}
 func SetTokenCheckFunc(fn func(username, password string) (*Token, error)) {
