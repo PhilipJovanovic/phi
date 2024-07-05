@@ -496,3 +496,7 @@ Licensed under [MIT License](./LICENSE)
 [GoDoc Widget]: https://godoc.org/github.com/go-phi/phi?status.svg
 [Travis]: https://travis-ci.org/go-phi/phi
 [Travis Widget]: https://travis-ci.org/go-phi/phi.svg?branch=master
+
+# Start of new Documentation
+
+TODO

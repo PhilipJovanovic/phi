@@ -26,40 +26,45 @@ type Error struct {
 // Validation error can be used for validating post bodies
 func ValidatingError(e error) *Error {
 	return &Error{
-		Error:   "validatingError",
-		Message: e.Error(),
+		Error:      "validatingError",
+		Message:    e.Error(),
+		StatusCode: 400,
 	}
 }
 
 // Parameter error for error handling regarding parameter missing /yeet/{cid} -> cid = parameter
 func URLParameterError(e string) *Error {
 	return &Error{
-		Error:   "missingURLParameters",
-		Message: e,
+		Error:      "missingURLParameters",
+		Message:    e,
+		StatusCode: 400,
 	}
 }
 
 // Query Parameter error for error handling regarding parameter missing /yeet?id=1337 -> id = query parameter
 func QueryParameterError(e string) *Error {
 	return &Error{
-		Error:   "missingQueryParameters",
-		Message: e,
+		Error:      "missingQueryParameters",
+		Message:    e,
+		StatusCode: 400,
 	}
 }
 
 // Body Parameter error for error handling regarding parameter missing POST body = { "data": "123"} -> data = body parameter
 func BodyParameterError(e string) *Error {
 	return &Error{
-		Error:   "missingBodyParameters",
-		Message: e,
+		Error:      "missingBodyParameters",
+		Message:    e,
+		StatusCode: 400,
 	}
 }
 
 // Unknown error for generic error handling
 func UnknownError(e error) *Error {
 	return &Error{
-		Error:   "unknownError",
-		Message: e.Error(),
+		Error:      "unknownError",
+		Message:    e.Error(),
+		StatusCode: 500,
 	}
 }
 

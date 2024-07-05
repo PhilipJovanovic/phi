@@ -24,6 +24,18 @@ const TOKEN_CONTEXT TOKEN_TYPE = "_token"
 var (
 	unauthorizedFunc = phi.Unauthorized
 	tokenCheckFunc   = ImplementAccessCheck
+
+	invalidUserId = phi.Error{
+		Error:      "invalidUserId",
+		Message:    "user id is not primitive.ObjectID",
+		StatusCode: 400,
+	}
+
+	tokenNotFound = phi.Error{
+		Error:      "tokenNotFound",
+		Message:    "context token could not be found",
+		StatusCode: 400,
+	}
 )
 
 // SetUnauthorizedFunc sets the function to be called when a request is unauthorized
@@ -67,18 +79,18 @@ func GetToken(r *phi.Request) *Token {
 }
 
 // Opinionated helper function to get the user id from the token as primitive.ObjectID
-func GetUserID(r *phi.Request) *primitive.ObjectID {
+func GetUserID(r *phi.Request) (*primitive.ObjectID, *phi.Error) {
 	token, ok := r.Context().Value(TOKEN_CONTEXT).(Token)
 	if !ok {
-		return nil
+		return nil, &tokenNotFound
 	}
 
 	id, err := primitive.ObjectIDFromHex(token.ID)
 	if err != nil {
-		return nil
+		return nil, &invalidUserId
 	}
 
-	return &id
+	return &id, nil
 }
 
 // Checks for bearer token or basic auth and returns unauthorized if not found

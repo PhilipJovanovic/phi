@@ -10,6 +10,8 @@ type Response struct {
 }
 
 // send response with application/json
+//
+// content will be wrapped in { "data" : <content> } object
 func (w Response) JSON(data interface{}) *Error {
 	if w.Header().Get("Content-Type") == "" {
 		w.Header().Set("Content-Type", "application/json")
@@ -41,6 +43,13 @@ func (w Response) Response(data []byte, contentType string) *Error {
 }
 
 // send error response with status code
+//
+// default error will look like this:
+//
+//	{
+//	  "error": "unknownError",
+//	  "message": err.Error()
+//	}
 func (w Response) Error(err error) *Error {
 	if w.Header().Get("Content-Type") == "" {
 		w.Header().Set("Content-Type", "application/json")
