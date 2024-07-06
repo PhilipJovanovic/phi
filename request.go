@@ -3,6 +3,7 @@ package phi
 import (
 	"encoding/json"
 	"fmt"
+	"io"
 	"net/http"
 	"reflect"
 	"strings"
@@ -48,6 +49,40 @@ func Validate[T any](r *Request) (*T, *Error) {
 	var body T
 
 	if err := json.NewDecoder(r.Body).Decode(&body); err != nil {
+		return nil, &decodingError
+	}
+
+	fields := reflect.ValueOf(&body).Elem()
+	errorList := make([]string, 0)
+
+	for i := 0; i < fields.NumField(); i++ {
+		jsonTags := fields.Type().Field(i).Tag.Get("json")
+
+		if strings.Contains(jsonTags, "required") && fields.Field(i).IsZero() {
+			errorList = append(errorList, strings.Split(jsonTags, ",")[0])
+		}
+	}
+
+	if len(errorList) > 0 {
+		return nil, BodyParameterError(fmt.Sprintf("missing '%s'", strings.Join(errorList, ",")))
+	}
+
+	return &body, nil
+}
+
+// Validate post bodies but accepts string
+// Example:
+//
+//	type Body struct {
+//		Data string `json:"data,required"` 	// required
+//		Dutu string `json:"dutu"`		// optional
+//	}
+func ValidateString[T any](r string) (*T, *Error) {
+	var body T
+
+	reader := io.NopCloser(strings.NewReader(r))
+
+	if err := json.NewDecoder(reader).Decode(&body); err != nil {
 		return nil, &decodingError
 	}
 
