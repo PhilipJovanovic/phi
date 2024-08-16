@@ -1,6 +1,7 @@
 package phi
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
 	"io"
@@ -31,12 +32,31 @@ func (r *Request) QueryParam(id string) (string, *Error) {
 	return "", QueryParameterError(id)
 }
 
-// if JWTAuth middleware is used, this function can be used to extract the token from the context
-/* func (r *Request) GetContextToken(id string) *middleware.Token {
-	token := r.Context().Value(middleware.TOKEN_CONTEXT).(middleware.Token)
+// A Wrapper for
+//
+//	ctx := context.WithValue(r.Context(), TOKEN_CONTEXT, *token)
+//	r.WithContext(ctx)
+//
+// mostly used by middlewares f.E.:
+//
+//	func TestMW(next http.Handler) http.Handler {
+//		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+//			ctx := context.WithValue(r.Context(), "CONTEXT_ID", "test")
+//			next.ServeHTTP(w, r.WithContext(ctx))
+//		})
+//	}
+func (r *Request) SetContext(contextId string, data any) *http.Request {
+	ctx := context.WithValue(r.Context(), contextId, data)
 
-	return &token
-} */
+	return r.WithContext(ctx)
+}
+
+// A Wrapper for Context().Value to return a casted value
+func GetContext[T any](r *Request, contextId string) *T {
+	t := r.Context().Value(contextId).(T)
+
+	return &t
+}
 
 // Validate post bodies
 // Example:

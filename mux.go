@@ -104,6 +104,31 @@ func (mx *Mux) Use(middlewares ...func(http.Handler) http.Handler) {
 	mx.middlewares = append(mx.middlewares, middlewares...)
 }
 
+// Appends one simplified middleware to the Mux middleware stack.
+//
+// Works like Use, but accepts a function which returns data which gets stored at the request context.
+// Mainly to simplitfy the process of initializing a whole handlerFunc everytime you want to add something to the context
+func (mx *Mux) Resolve(token string, resolver func(w *Response, r *Request) (any, *Error)) {
+	if mx.handler != nil {
+		panic("phi: all middlewares must be defined before routes on a mux")
+	}
+
+	newMid := func(next http.Handler) http.Handler {
+		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			resolve, err := resolver(&Response{ResponseWriter: w}, &Request{Request: r})
+			if err != nil {
+				ErrorHandler(w, r, err)
+				return
+			}
+
+			ctx := context.WithValue(r.Context(), token, resolve)
+			next.ServeHTTP(w, r.WithContext(ctx))
+		})
+	}
+
+	mx.middlewares = append(mx.middlewares, newMid)
+}
+
 // Handle adds the route `pattern` that matches any http method to
 // execute the `handler` http.Handler.
 func (mx *Mux) Handle(pattern string, handler http.Handler) {

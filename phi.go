@@ -73,6 +73,9 @@ type Router interface {
 	// Use appends one or more middlewares onto the Router stack.
 	Use(middlewares ...func(http.Handler) http.Handler)
 
+	// Simplify middleware context adding
+	Resolve(token string, resolver func(res *Response, req *Request) (any, *Error))
+
 	// With adds inline middlewares for an endpoint handler.
 	With(middlewares ...func(http.Handler) http.Handler) Router
 

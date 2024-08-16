@@ -499,4 +499,47 @@ Licensed under [MIT License](./LICENSE)
 
 # Start of new Documentation
 
-TODO
+## TODO
+
+-   Documentation
+    -   GetContext
+    -   SetContext
+    -   Resolve
+
+# Resolve (Middleware simplify)
+
+```go
+
+func main() {
+  // ...
+
+  r.Route("/user", func(r phi.Router) {
+    r.Resolve("user", UserFromDatabase)
+    r.GET("/", getUser)
+  })
+}
+
+func UserFromDatabase(res *phi.Response, req *phi.Request) (any, *phi.Error) {
+  user, err := <GET_USER_FROM_DATABASE>
+  if err != {
+    return nil, &phi.Error{
+      Error   :"userNotFound",
+      Message :"user could not be found",
+    }
+  }
+
+  return user, nil
+}
+
+func getUser(res *phi.Response, req *phi.Request) *phi.Error {
+	user := phi.GetContext[User]("user")
+	if user == nil {
+		return &phi.Error{
+      Error   :"userNotFound",
+      Message :"user could not be found",
+    }
+	}
+
+	return res.JSON(user)
+}
+```
