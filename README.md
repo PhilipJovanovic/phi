@@ -504,7 +504,7 @@ Licensed under [MIT License](./LICENSE)
 -   Documentation
     -   GetContext
     -   SetContext
-    -   Resolve
+    -   res.Error, res.Response, res.UnkownError documentation (+ errorCodes maybe) etc.
 
 # Resolve (Middleware simplify)
 

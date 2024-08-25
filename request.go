@@ -41,11 +41,12 @@ func (r *Request) QueryParam(id string) (string, *Error) {
 //
 //	func TestMW(next http.Handler) http.Handler {
 //		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-//			ctx := context.WithValue(r.Context(), "CONTEXT_ID", "test")
+//			str := "test"
+//			ctx := context.WithValue(r.Context(), "CONTEXT_ID", &str)
 //			next.ServeHTTP(w, r.WithContext(ctx))
 //		})
 //	}
-func (r *Request) SetContext(contextId string, data any) *http.Request {
+func (r *Request) SetContext(contextId string, data *any) *http.Request {
 	ctx := context.WithValue(r.Context(), contextId, data)
 
 	return r.WithContext(ctx)
@@ -53,9 +54,9 @@ func (r *Request) SetContext(contextId string, data any) *http.Request {
 
 // A Wrapper for Context().Value to return a casted value
 func GetContext[T any](r *Request, contextId string) *T {
-	t := r.Context().Value(contextId).(T)
+	t := r.Context().Value(contextId).(*T)
 
-	return &t
+	return t
 }
 
 // Validate post bodies
