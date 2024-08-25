@@ -108,7 +108,7 @@ func (mx *Mux) Use(middlewares ...func(http.Handler) http.Handler) {
 //
 // Works like Use, but accepts a function which returns data which gets stored at the request context.
 // Mainly to simplitfy the process of initializing a whole handlerFunc everytime you want to add something to the context
-func (mx *Mux) Resolve(token string, resolver func(w *Response, r *Request) (any, *Error)) {
+func (mx *Mux) Resolve(token string, resolver func(w *Response, r *Request) (*any, *Error)) {
 	if mx.handler != nil {
 		panic("phi: all middlewares must be defined before routes on a mux")
 	}
