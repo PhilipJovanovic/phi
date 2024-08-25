@@ -46,7 +46,7 @@ func (r *Request) QueryParam(id string) (string, *Error) {
 //			next.ServeHTTP(w, r.WithContext(ctx))
 //		})
 //	}
-func (r *Request) SetContext(contextId string, data *any) *http.Request {
+func (r *Request) SetContext(contextId string, data any) *http.Request {
 	ctx := context.WithValue(r.Context(), contextId, data)
 
 	return r.WithContext(ctx)
