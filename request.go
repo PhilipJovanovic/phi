@@ -4,9 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"io"
 	"net/http"
-	"reflect"
 	"strings"
 )
 
@@ -73,22 +71,7 @@ func Validate[T any](r *Request) (*T, *Error) {
 		return nil, &decodingError
 	}
 
-	fields := reflect.ValueOf(&body).Elem()
-	errorList := make([]string, 0)
-
-	for i := 0; i < fields.NumField(); i++ {
-		jsonTags := fields.Type().Field(i).Tag.Get("json")
-
-		if strings.Contains(jsonTags, "required") && fields.Field(i).IsZero() {
-			errorList = append(errorList, strings.Split(jsonTags, ",")[0])
-		}
-	}
-
-	if len(errorList) > 0 {
-		return nil, BodyParameterError(fmt.Sprintf("missing '%s'", strings.Join(errorList, ",")))
-	}
-
-	return &body, nil
+	return handleValidate(&body)
 }
 
 // Validate post bodies but accepts string
@@ -101,26 +84,28 @@ func Validate[T any](r *Request) (*T, *Error) {
 func ValidateString[T any](r string) (*T, *Error) {
 	var body T
 
-	reader := io.NopCloser(strings.NewReader(r))
-
-	if err := json.NewDecoder(reader).Decode(&body); err != nil {
+	if err := json.NewDecoder(strings.NewReader(r)).Decode(&body); err != nil {
 		return nil, &decodingError
 	}
 
-	fields := reflect.ValueOf(&body).Elem()
-	errorList := make([]string, 0)
+	return handleValidate(&body)
+}
 
-	for i := 0; i < fields.NumField(); i++ {
-		jsonTags := fields.Type().Field(i).Tag.Get("json")
+// validates the given datastruct for required fields
+func handleValidate[T any](data *T) (*T, *Error) {
+	errS := []string{}
 
-		if strings.Contains(jsonTags, "required") && fields.Field(i).IsZero() {
-			errorList = append(errorList, strings.Split(jsonTags, ",")[0])
+	if err := handleResolve("", &errS, data); err != nil {
+		return nil, &Error{
+			Error:      "validationFailed",
+			Message:    err.Error(),
+			StatusCode: http.StatusInternalServerError,
 		}
 	}
 
-	if len(errorList) > 0 {
-		return nil, BodyParameterError(fmt.Sprintf("missing '%s'", strings.Join(errorList, ",")))
+	if len(errS) > 0 {
+		return nil, BodyParameterError(fmt.Sprintf("missing '%s'", strings.Join(errS, ", ")))
 	}
 
-	return &body, nil
+	return data, nil
 }
