@@ -22,7 +22,12 @@ func handleResolve(prefix string, errs *[]string, data interface{}) error {
 			return err
 		}
 	case reflect.Ptr:
-		return handleResolve(prefix, errs, reflect.ValueOf(data).Elem().Interface())
+		val := reflect.ValueOf(data)
+		if val.IsNil() {
+			return nil
+		}
+
+		return handleResolve(prefix, errs, val.Elem().Interface())
 	}
 
 	return nil
